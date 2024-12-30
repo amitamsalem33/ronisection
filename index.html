@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="קרנות סוכנות לביטוח - הדרך שלך לביטוח מקצועי ואישי" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>קרנות סוכנות לביטוח | סופר מעוצב</title>
+
+    <!-- Tailwind CSS -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- AOS (Animate On Scroll) CSS -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/aos@2.3.1/dist/aos.css"
+    />
+
+    <!-- Google Font -->
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&display=swap");
+
+      /* הגדרת פונטים כללית */
+      * {
+        font-family: "Heebo", sans-serif;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /*--------------------------------------
+      1) HERO רקע דינמי באנימציה
+      --------------------------------------*/
+      .hero-bg {
+        background: url("https://unsplash.com/photos/5QgIuuBxKwM/download?force=true")
+          no-repeat center center/cover;
+        position: relative;
+        animation: bg-move 20s linear infinite alternate;
+      }
+      @keyframes bg-move {
+        0% {
+          background-position: 0% 50%;
+        }
+        100% {
+          background-position: 100% 50%;
+        }
+      }
+
+      .overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.4);
+        pointer-events: none;
+      }
+
+      /*--------------------------------------
+      2) כפתורים
+      --------------------------------------*/
+      .btn-hover {
+        transition: all 0.3s ease;
+      }
+      .btn-hover:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      }
+      .btn-grad {
+        background: linear-gradient(to right, #7f5af0, #2cb67d);
+        color: #fff;
+      }
+      .btn-grad:hover {
+        background: linear-gradient(to right, #2cb67d, #7f5af0);
+      }
+
+      /*--------------------------------------
+      3) אפקט ריחוף על כרטיסים
+      --------------------------------------*/
+      .card-hover {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .card-hover:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      /*--------------------------------------
+      4) גלי מעבר (Wave dividers)
+      --------------------------------------*/
+      .wave-top svg,
+      .wave-bottom svg {
+        display: block;
+        width: 100%;
+        height: 80px;
+      }
+      .wave-top {
+        position: relative;
+        margin-top: -1px;
+      }
+      .wave-bottom {
+        position: relative;
+        margin-bottom: -1px;
+      }
+
+      /*--------------------------------------
+      5) רקע גרדיאנט רך + אנימציה
+      --------------------------------------*/
+      .bg-soft-gradient {
+        background: linear-gradient(135deg, #e3fdfd 0%, #ffe6fa 100%);
+      }
+      .animate-gradient {
+        background-size: 400% 400%;
+        animation: gradient-flow 8s ease infinite;
+      }
+      @keyframes gradient-flow {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      /*--------------------------------------
+      6) גריד הלוגואים - כמו ב-kranot-ins.co.il
+      --------------------------------------*/
+      .insurance-logos-grid {
+        display: grid;
+        grid-template-columns: repeat(6, minmax(100px, 1fr));
+        gap: 1rem;
+        align-items: center;
+        justify-items: center;
+      }
+      .insurance-logos-grid img {
+        max-height: 80px; /* הגבלת גובה התמונה */
+        object-fit: contain;
+      }
+
+      /*--------------------------------------
+      7) Flip Cards לסוגי הביטוחים
+      --------------------------------------*/
+      .flip-card-group {
+        perspective: 1000px; /* עומק תלת-מימדי */
+      }
+      .flip-card {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        min-height: 320px; /* גובה מינימלי לכרטיס */
+        transform-style: preserve-3d;
+        transition: transform 0.8s ease;
+        cursor: pointer;
+      }
+      .flip-card:hover {
+        transform: rotateY(180deg);
+      }
+      /* שני הצדדים של הכרטיס */
+      .flip-card-front,
+      .flip-card-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden; /* מסתיר את הצד הנגדי */
+        border-radius: 0.5rem;       /* פינות מעוגלות */
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
+      }
+      /* הצד הקדמי */
+      .flip-card-front {
+        z-index: 2;
+      }
+      /* הצד האחורי */
+      .flip-card-back {
+        background-color: #f9fafb; /* צבע עדין */
+        transform: rotateY(180deg);
+      }
+
+      /* שיפור רספונסיביות בטפסים ובכפתורים */
+      @media (max-width: 768px) {
+        .container {
+          padding-left: 1rem;
+          padding-right: 1rem;
+        }
+      }
+    </style>
+  </head>
+
+  <body class="bg-white text-gray-800 relative overflow-x-hidden">
+    <!-- HEADER (HERO) -->
+    <header class="hero-bg h-screen flex flex-col text-white">
+      <div class="overlay"></div>
+
+      <!-- ניווט עליון -->
+      <nav
+        class="container mx-auto px-4 py-4 relative z-30 flex items-center justify-between"
+        data-aos="fade-down"
+      >
+        <h1 class="text-2xl md:text-3xl font-bold tracking-wide">
+          קרנות סוכנות לביטוח
+        </h1>
+        <div class="flex items-center space-x-4 space-x-reverse">
+          <a
+            href="#insurance-types"
+            class="text-white hover:text-blue-200 font-medium transition"
+            >סוגי ביטוחים</a
+          >
+          <a
+            href="#contact"
+            class="btn-hover bg-white text-blue-900 font-bold px-4 py-2 rounded-lg"
+            >צור קשר</a
+          >
+        </div>
+      </nav>
+
+      <!-- תוכן HERO -->
+      <div
+        class="container mx-auto px-4 relative z-30 flex flex-1 flex-col md:flex-row items-center justify-center text-center md:text-right"
+      >
+        <div class="max-w-xl" data-aos="fade-up">
+          <h2 class="text-4xl md:text-5xl font-bold leading-tight mb-4">
+            הדרך שלך לביטוח מקצועי ואישי
+          </h2>
+          <p class="text-lg md:text-xl mb-6 leading-relaxed">
+            אנחנו בקרנות סוכנות לביטוח מתמחים במתן פתרונות ביטוח בהתאמה אישית
+            לצרכים שלך. פנה אלינו עוד היום לקבלת ייעוץ חינם!
+          </p>
+          <a
+            href="#contact"
+            class="btn-hover btn-grad px-8 py-3 rounded-lg font-bold inline-block"
+            >צור קשר עכשיו</a
+          >
+        </div>
+      </div>
+
+      <!-- גל תחתון של ה-Header -->
+      <div class="wave-bottom">
+        <svg
+          viewBox="0 0 500 150"
+          preserveAspectRatio="none"
+          class="fill-current text-white"
+        >
+          <path
+            d="M0.00,49.98 C150.00,150.00 271.68,-49.98 500.00,49.98 L500.00,0.00 L0.00,0.00 Z"
+          ></path>
+        </svg>
+      </div>
+    </header>
+
+    <!-- למה לבחור בנו? (רקע גרדיאנט) -->
+    <section class="bg-soft-gradient animate-gradient wave-top py-16">
+      <!-- גל עליון (ליצירת מעבר חלק) -->
+      <div class="wave-top">
+        <svg
+          viewBox="0 0 500 150"
+          preserveAspectRatio="none"
+          class="fill-current text-white"
+        >
+          <path
+            d="M0.00,49.98 C150.00,150.00 271.68,-49.98 500.00,49.98 L500.00,0.00 L0.00,0.00 Z"
+          ></path>
+        </svg>
+      </div>
+
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-12" data-aos="fade-up">
+          <h2 class="text-3xl md:text-4xl font-bold text-blue-900 mb-4">
+            למה לבחור בנו?
+          </h2>
+          <p class="max-w-2xl mx-auto text-gray-700 mb-6 leading-relaxed">
+            בקרנות סוכנות לביטוח אנחנו מלווים את לקוחותינו יד ביד, ומספקים לכם
+            ערך מוסף אמיתי עם יתרונות מובהקים:
+          </p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- כרטיס 1 -->
+          <div
+            class="bg-white p-6 rounded-lg shadow-lg card-hover"
+            data-aos="fade-right"
+          >
+            <div
+              class="w-16 h-16 mx-auto bg-blue-100 rounded-full flex items-center justify-center mb-4"
+            >
+              <svg
+                class="w-8 h-8 text-blue-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M13 10V3L4 14h7v7l9-11h-7z"
+                ></path>
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold mb-2 text-center">
+              ייעוץ מקצועי ללא פשרות
+            </h3>
+            <p class="text-gray-600 text-center">
+              צוות המומחים שלנו עומד לרשותך בכל שלב ומציע לך את הפתרון הכי נכון
+              לך – בלי פשרות.
+            </p>
+          </div>
+          <!-- כרטיס 2 -->
+          <div
+            class="bg-white p-6 rounded-lg shadow-lg card-hover"
+            data-aos="fade-up"
+          >
+            <div
+              class="w-16 h-16 mx-auto bg-blue-100 rounded-full flex items-center justify-center mb-4"
+            >
+              <svg
+                class="w-8 h-8 text-blue-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 8c-2.28 0-4 1.72-4 4s1.72 4 4 4 4-1.72 4-4-1.72-4-4-4z"
+                ></path>
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M8 20a4 4 0 004 4 4 4 0 004-4H8z"
+                ></path>
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold mb-2 text-center">
+              שירות אישי ומהיר
+            </h3>
+            <p class="text-gray-600 text-center">
+              אנחנו מבינים שלוח הזמנים שלך יקר, ולכן מתחייבים לתהליך יעיל וליווי
+              צמוד עד קבלת הביטוח המתאים.
+            </p>
+          </div>
+          <!-- כרטיס 3 -->
+          <div
+            class="bg-white p-6 rounded-lg shadow-lg card-hover"
+            data-aos="fade-left"
+          >
+            <div
+              class="w-16 h-16 mx-auto bg-blue-100 rounded-full flex items-center justify-center mb-4"
+            >
+              <svg
+                class="w-8 h-8 text-blue-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M18.364 5.636l-2.121 2.121A5 5 0 1015 15l2.121-2.121A2 2 0 0118 13V6a1 1 0 00-1-1h-1"
+                ></path>
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold mb-2 text-center">
+              חיסכון מקסימלי
+            </h3>
+            <p class="text-gray-600 text-center">
+              נייצג אותך מול חברות הביטוח, נשווה מחירים ונסייע לך לבחור במוצר
+              הנכון בעלות הטובה ביותר.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      
+
+    <!-- סוגי הביטוחים (Flip Cards) -->
+    <section
+      id="insurance-types"
+      class="bg-blue-50 py-16 relative z-10"
+      data-aos="fade-up"
+    >
+      <div class="container mx-auto px-4">
+        <h2 class="text-3xl md:text-4xl font-bold text-center text-blue-900 mb-8">
+          סוגי הביטוחים שלנו
+        </h2>
+        <p class="text-center text-gray-600 max-w-xl mx-auto mb-12 leading-relaxed">
+          בחרו את הביטוח המתאים ולחצו לקבלת מידע נוסף.  
+        </p>
+
+        <!-- גריד flip cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- כרטיס 1: ביטוח חיים -->
+          <div class="flip-card-group">
+            <div class="flip-card">
+              <!-- צד קדמי -->
+              <div class="flip-card-front flex flex-col items-center justify-center p-6">
+                <div
+                  class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4"
+                >
+                  <svg
+                    class="w-8 h-8 text-blue-600"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                    ></path>
+                  </svg>
+                </div>
+                <h3 class="text-xl font-bold text-blue-800 mb-2">ביטוח חיים</h3>
+                <p class="text-gray-600 text-center">
+                  לחצו לקבלת פרטים על הכיסוי, התנאים והיתרונות של ביטוח חיים.
+                </p>
+              </div>
+              <!-- צד אחורי -->
+              <div class="flip-card-back flex flex-col items-center justify-center p-6">
+                <h4 class="text-xl font-bold mb-3">מידע על ביטוח חיים</h4>
+                <ul class="text-sm text-left list-disc list-inside space-y-2">
+                  <li>כיסוי למקרה מוות</li>
+                  <li>פיצוי למשפחה</li>
+                  <li>ביטוח חיים למשכנתא</li>
+                  <li>פרמיה מותאמת אישית</li>
+                </ul>
+                <button
+                  class="mt-6 px-6 py-2 btn-hover btn-grad rounded-lg text-white font-bold transition"
+                >
+                  להצעת מחיר
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- כרטיס 2: ביטוח בריאות -->
+          <div class="flip-card-group">
+            <div class="flip-card">
+              <!-- צד קדמי -->
+              <div class="flip-card-front flex flex-col items-center justify-center p-6">
+                <div
+                  class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4"
+                >
+                  <svg
+                    class="w-8 h-8 text-blue-600"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                    ></path>
+                  </svg>
+                </div>
+                <h3 class="text-xl font-bold text-blue-800 mb-2">ביטוח בריאות</h3>
+                <p class="text-gray-600 text-center">
+                  כיסוי לניתוחים, תרופות, ביטוח מחלות קשות ועוד.
+                </p>
+              </div>
+              <!-- צד אחורי -->
+              <div class="flip-card-back flex flex-col items-center justify-center p-6">
+                <h4 class="text-xl font-bold mb-3">מידע על ביטוח בריאות</h4>
+                <ul class="text-sm text-left list-disc list-inside space-y-2">
+                  <li>ביטוח ריאות ותרופות מחוץ לסל</li>
+                  <li>מחלות קשות (סרטן וכו')</li>
+                  <li>כיסויים לניתוחים פרטיים</li>
+                  <li>שירותים רפואיים מקיפים</li>
+                </ul>
+                <button
+                  class="mt-6 px-6 py-2 btn-hover btn-grad rounded-lg text-white font-bold transition"
+                >
+                  להצעת מחיר
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- כרטיס 3: ביטוח נסיעות לחו"ל -->
+          <div class="flip-card-group">
+            <div class="flip-card">
+              <!-- צד קדמי -->
+              <div class="flip-card-front flex flex-col items-center justify-center p-6">
+                <div
+                  class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4"
+                >
+                  <svg
+                    class="w-8 h-8 text-blue-600"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                    ></path>
+                  </svg>
+                </div>
+                <h3 class="text-xl font-bold text-blue-800 mb-2">
+                  ביטוח נסיעות לחו"ל
+                </h3>
+                <p class="text-gray-600 text-center">
+                  כיסוי רפואי בחו"ל, ביטוח כבודה, חילוץ והצלה ועוד.
+                </p>
+              </div>
+              <!-- צד אחורי -->
+              <div class="flip-card-back flex flex-col items-center justify-center p-6">
+                <h4 class="text-xl font-bold mb-3">
+                  מידע על ביטוח נסיעות לחו"ל
+                </h4>
+                <ul class="text-sm text-left list-disc list-inside space-y-2">
+                  <li>הוצאות רפואיות בחו"ל</li>
+                  <li>ביטוח כבודה ואובדן מזוודות</li>
+                  <li>כיסוי לספורט אתגרי (אופציונלי)</li>
+                  <li>שירותי סיוע 24/7</li>
+                </ul>
+                <button
+                  class="mt-6 px-6 py-2 btn-hover btn-grad rounded-lg text-white font-bold transition"
+                >
+                  להצעת מחיר
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ניתן להוסיף עוד כרטיסים (flip cards) כאן -->
+      </div>
+    </section>
+
+    <!-- המלצות (Testimonial) -->
+    <section class="py-16 bg-white" data-aos="fade-up">
+      <div class="container mx-auto px-4">
+        <h2 class="text-3xl md:text-4xl font-bold text-center text-blue-900 mb-12">
+          מה הלקוחות שלנו מספרים
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div class="bg-blue-50 p-6 rounded-lg shadow-lg card-hover" data-aos="flip-left">
+            <p class="text-gray-600 mb-4 leading-relaxed">
+              "שירות אישי ומקצועי ברמה גבוהה מאוד. בזכותם הרגשתי בטוחה בבחירה
+              שלי."
+            </p>
+            <h3 class="text-blue-800 font-bold">עדי מ.</h3>
+          </div>
+          <div class="bg-blue-50 p-6 rounded-lg shadow-lg card-hover" data-aos="flip-left">
+            <p class="text-gray-600 mb-4 leading-relaxed">
+              "קיבלתי ביטוח חיים מדויק לצרכים שלי. כל התהליך עבר חלק ומהר."
+            </p>
+            <h3 class="text-blue-800 font-bold">יוסי ק.</h3>
+          </div>
+          <div class="bg-blue-50 p-6 rounded-lg shadow-lg card-hover" data-aos="flip-left">
+            <p class="text-gray-600 mb-4 leading-relaxed">
+              "תמיד זמינים לכל שאלה, ועזרו לי לבחור את הביטוח הטוב ביותר!"
+            </p>
+            <h3 class="text-blue-800 font-bold">דנה ר.</h3>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- צור קשר -->
+    <section id="contact" class="bg-gray-100 py-20 wave-top">
+      <!-- גל עליון אפור-בהיר -->
+      <div class="wave-top">
+        <svg
+          viewBox="0 0 500 150"
+          preserveAspectRatio="none"
+          class="fill-current text-white"
+        >
+          <path
+            d="M-0.84,49.99 C149.99,150.00 271.80,-49.98 500.06,49.99 L500.00,0.00 L0.00,0.00 Z"
+          ></path>
+        </svg>
+      </div>
+
+      <div class="container mx-auto px-4" data-aos="fade-up">
+        <div class="bg-white rounded-lg shadow-xl overflow-hidden">
+          <div class="p-8 md:p-12">
+            <h2 class="text-3xl font-bold text-center mb-8">
+              השאירו פרטים לייעוץ חינם
+            </h2>
+            <p class="text-gray-600 text-center max-w-xl mx-auto mb-12 leading-relaxed">
+              מלאו את הטופס ויועץ מטעמנו יחזור אליכם בהקדם עם כל המידע הדרוש.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+              <!-- טופס -->
+              <div>
+                <form class="space-y-6">
+                  <div>
+                    <label class="block text-gray-700 mb-2">שם מלא</label>
+                    <input
+                      type="text"
+                      class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label class="block text-gray-700 mb-2">טלפון</label>
+                    <input
+                      type="tel"
+                      class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label class="block text-gray-700 mb-2">אימייל</label>
+                    <input
+                      type="email"
+                      class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label class="block text-gray-700 mb-2">סוג ביטוח מבוקש</label>
+                    <select
+                      class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                    >
+                      <option>ביטוח חיים</option>
+                      <option>ביטוח בריאות</option>
+                      <option>ביטוח רכב</option>
+                      <option>אחר</option>
+                    </select>
+                  </div>
+                  <div class="text-center">
+                    <button
+                      type="submit"
+                      class="btn-hover btn-grad px-6 py-2 rounded-lg font-bold transition"
+                    >
+                      שלח
+                    </button>
+                  </div>
+                </form>
+              </div>
+              <!-- כפתורי קשר מהיר -->
+              <div
+                class="flex flex-col items-center justify-center space-y-4"
+              >
+                <a
+                  href="https://wa.me/0000000000"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="btn-hover text-white bg-green-500 px-6 py-2 rounded-lg font-bold inline-block transition text-center"
+                >
+                  שלח הודעת וואצפ
+                </a>
+                <a
+                  href="tel:0000000000"
+                  class="btn-hover bg-blue-500 text-white px-6 py-2 rounded-lg font-bold inline-block transition text-center"
+                >
+                  התקשר עכשיו
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- גל תחתון לבן -->
+      <div class="wave-bottom">
+        <svg
+          viewBox="0 0 500 150"
+          preserveAspectRatio="none"
+          class="fill-current text-gray-100"
+        >
+          <path
+            d="M-1.41,5.03 C149.99,150.00 271.80,-49.98 501.41,5.03 L500.00,150.00 L0.00,150.00 Z"
+          ></path>
+        </svg>
+      </div>
+    </section>
+
+    <!-- פוטר -->
+    <footer class="bg-blue-900 text-white py-6" data-aos="fade-up">
+      <div class="container mx-auto px-4 text-center">
+        <p class="text-sm">
+          ©
+          <span id="currentYear"></span>
+          קרנות סוכנות לביטוח. כל הזכויות שמורות.
+        </p>
+      </div>
+    </footer>
+
+    <!-- AOS (Animate On Scroll) JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      AOS.init({
+        duration: 1000, // משך האנימציה
+        offset: 100,    // מרחק התחלת האנימציה
+      });
+      document.getElementById("currentYear").textContent =
+        new Date().getFullYear();
+    </script>
+  </body>
+</html>
